@@ -9,5 +9,13 @@ export interface Post {
     content: string
     status: PostStatus;
     author: Author;
-    tags: Tag[];
-}
+    dateCreated: string;
+    tags?: Tag[];
+};
+
+export type PostCreateInput = Omit<Post, 'id' | 'dateCreated' | 'author'> & {
+    author: Author;
+    tags?: string[];
+};
+
+export type PostUpdate =  Partial<PostCreateInput>;
