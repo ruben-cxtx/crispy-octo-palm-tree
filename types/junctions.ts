@@ -1,5 +1,7 @@
+import { Tag } from "./tags";
+
 export interface PostTagJunction {
     id: number;
-    postId: number;
-    tagId: number;
+    post_id: number;
+    tag_id: number | Tag;
 }

@@ -1,5 +1,5 @@
-import { Author } from "./authors";
-import { Tag } from "./tags";
+import {Author, PostTagJunction} from '@/types'
+
 
 type PostStatus = 'draft' | 'published';
 
@@ -10,12 +10,17 @@ export interface Post {
     status: PostStatus;
     author: Author;
     dateCreated: string;
-    tags?: Tag[];
+    tags: PostTagJunction[];
 };
 
-export type PostCreateInput = Omit<Post, 'id' | 'dateCreated' | 'author'> & {
-    author: Author;
-    tags?: string[];
-};
+export type PostCreateInput = {
+    title: string;
+    content: string;
+    status: PostStatus;
+    author: number; //author's ID
+    tags: {
+        tags_id: number;
+    }[]
+}
 
 export type PostUpdate =  Partial<PostCreateInput>;
