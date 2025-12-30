@@ -2,8 +2,8 @@ import { Author, Post, PostTagJunction, Tag } from "@/types";
 
 
 export interface MySchema {
-    Posts: Post[];
-    Authors: Author[];
+    posts: Post[];
+    authors: Author[];
     PostsTagsJunction: PostTagJunction[]
-    Tags: Tag[];
+    tags: Tag[];
 }

@@ -1,7 +1,7 @@
 "use server"
 import { PostCreateInput, PostUpdate } from "@/types"
 import directus from "@/lib/directus"
-import { createItem, updateItem } from "@directus/sdk"
+import { createItem, updateItem, deleteItem } from "@directus/sdk"
 import { revalidatePath } from "next/cache";
 
 export async function createPostAction(formData: FormData) {
@@ -16,7 +16,7 @@ export async function createPostAction(formData: FormData) {
     };
 
     try {
-        await directus.request(createItem('Posts', rawData));
+        await directus.request(createItem('posts', rawData));
         revalidatePath("/app/blog");
 
     } catch(err) {
@@ -28,7 +28,7 @@ export async function createPostAction(formData: FormData) {
 export async function updatePostAction(id: number, data: PostUpdate) {
     try {
         await directus.request(
-            updateItem("Posts", id, data)
+            updateItem("posts", id, data)
         );
 
         revalidatePath(`/app/blog/${id}`);
@@ -39,3 +39,15 @@ export async function updatePostAction(id: number, data: PostUpdate) {
         return { error: "Something went wrong. "};
     }
 }
+
+export async function deletePostAction(id: number) {
+    try {
+        await directus.request(
+            deleteItem('posts', id)
+        );
+    } catch(err) {
+        console.error(`Failed to delete a post: ${err}`);
+        return { error: "Something went wrong."};
+    }
+}
+
