@@ -1,7 +1,7 @@
 "use server"
-import { PostCreateInput } from "@/types"
+import { PostCreateInput, PostUpdate } from "@/types"
 import directus from "@/lib/directus"
-import { createItem } from "@directus/sdk"
+import { createItem, updateItem } from "@directus/sdk"
 import { revalidatePath } from "next/cache";
 
 export async function createPostAction(formData: FormData) {
@@ -22,5 +22,20 @@ export async function createPostAction(formData: FormData) {
     } catch(err) {
         console.error(`Failed to create a post: ${err}`);
         return { error: "Something went wrong."};
+    }
+}
+
+export async function updatePostAction(id: number, data: PostUpdate) {
+    try {
+        await directus.request(
+            updateItem("Posts", id, data)
+        );
+
+        revalidatePath(`/app/blog/${id}`);
+        revalidatePath('/app/blog');
+
+    } catch(err) {
+        console.error(`Failed to update post: ${err}`);
+        return { error: "Something went wrong. "};
     }
 }
