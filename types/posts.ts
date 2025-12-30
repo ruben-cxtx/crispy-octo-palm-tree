@@ -9,6 +9,7 @@ export interface Post {
     content: string
     status: PostStatus;
     author: number | Author;
+    slug: string;
     dateCreated: string;
     tags: PostTagJunction[];
 };
