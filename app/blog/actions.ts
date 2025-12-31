@@ -3,12 +3,17 @@ import { PostCreateInput, PostUpdate } from "@/types"
 import directus from "@/lib/directus"
 import { createItem, updateItem, deleteItem } from "@directus/sdk"
 import { revalidatePath } from "next/cache";
+import { slugify } from "@/utils/slugify";
 
 export async function createPostAction(formData: FormData) {
+
+    const title = formData.get("title") as string;
+
     const rawData: PostCreateInput = {
         title: formData.get("title") as string,
         content: formData.get("content") as string,
         status: "published",
+        slug: slugify(title),
         author: Number(formData.get("authorId")),
         tags: [
             { tags_id: Number(formData.get("tag_id")) }

@@ -5,6 +5,7 @@ export interface Author {
     username: string;
     email: string;
     avatar: string;
+    slug: string;
 }
 
 export type AuthorPublic = Omit<Author, 'email' | 'id'>

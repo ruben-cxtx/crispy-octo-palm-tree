@@ -18,6 +18,7 @@ export type PostCreateInput = {
     title: string;
     content: string;
     status: PostStatus;
+    slug: string;
     author: number; //author's ID
     tags: {
         tags_id: number;
