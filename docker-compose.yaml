@@ -1,0 +1,27 @@
+services:
+  directus:
+    image: directus/directus:latest
+    ports:
+      - "8055:8055"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DB_CLIENT: "pg"
+      DB_HOST: "host.docker.internal"
+      DB_PORT: "5432"
+      DB_DATABASE: "blog_db"
+      DB_USER: "directus_admin"
+      DB_PASSWORD: "ruben123"
+
+      ADMIN_EMAIL: "admin@example.com"
+      ADMIN_PASSWORD: "password"
+
+      KEY: "ruben-blog-key-2025"
+      SECRET: "ruben-blog-secret-2025"
+
+      # Essential for your Next.js frontend
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "http://localhost:3000"
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions # Added this so you can practice custom extensions later
