@@ -10,7 +10,7 @@ export interface Post {
     status: PostStatus;
     author: number | Author;
     slug: string;
-    dateCreated: string;
+    date_created: string;
     tags: PostTagJunction[];
 };
 

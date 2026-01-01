@@ -50,6 +50,7 @@ export async function deletePostAction(id: number) {
         await directus.request(
             deleteItem('posts', id)
         );
+        revalidatePath('/app/blog');
     } catch(err) {
         console.error(`Failed to delete a post: ${err}`);
         return { error: "Something went wrong."};
