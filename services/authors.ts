@@ -44,11 +44,30 @@ export default async function getAllAuthors() {
             avatar: a.avatar,
             first_name: a.first_name,
             last_name: a.last_name,
-            post_number: a.posts?.length ?? 0,
         }))
 
     } catch(err) {
         console.error(`Failed to get authors: ${err}`);
         revalidatePath('/app/blog/authors');
     }
+}
+
+export async function getAuthorPosts() {
+    try {
+    const posts = directus.request(
+        readItems('posts', {
+            filter:
+            {author: { id: {_eq: 'id'}}},
+            deep: {},
+            sort: ['-date_created'],
+            limit: 1,
+            fields: ['id', 'title', 'date_created', 'tags', {author: ['avatar', 'id', 'username', 'first_name']}]
+        })
+    );
+        return posts;
+        } catch(err) {
+            console.error(`Failed to fetch author posts: ${err}`);
+            return null;
+        }
+
 }

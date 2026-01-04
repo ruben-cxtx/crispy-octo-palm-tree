@@ -1,5 +1,3 @@
-import { Post } from "./posts";
-
 export interface Author {
     id: number;
     first_name: string;
@@ -8,7 +6,6 @@ export interface Author {
     email: string;
     avatar: string;
     slug: string;
-    posts: Post[];
 }
 
 export type AuthorPublic = Omit<Author, 'email' | 'id'>

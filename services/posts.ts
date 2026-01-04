@@ -34,7 +34,7 @@ export async function getAllPosts() {
         const posts = await directus.request(
             readItems('posts', {
                 fields: ['id', 'title', 'content', {author: ['id', 'avatar', 'username', 'first_name', 'last_name']},
-                {tags: ['tags_id']}],
+                {tags: ['id', {tags_id: ['id', 'name', 'slug']}] }],
                 limit: 50,
                 sort: ['-date_created'],
             })
@@ -47,3 +47,4 @@ export async function getAllPosts() {
         revalidatePath('/app/blog');
     }
 }
+

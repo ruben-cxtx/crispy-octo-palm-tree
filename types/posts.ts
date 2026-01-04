@@ -1,4 +1,4 @@
-import {Author, PostTagJunction} from '@/types'
+import {Author, PostTagJunction, Tag} from '@/types'
 
 
 type PostStatus = 'draft' | 'published';
@@ -11,7 +11,7 @@ export interface Post {
     author: number | Author;
     slug: string;
     date_created: string;
-    tags: PostTagJunction[];
+    tags: PostTagJunction[] | Tag[];
 };
 
 export type PostCreateInput = {
