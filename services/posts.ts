@@ -3,19 +3,27 @@ import { readItems } from "@directus/sdk";
 import { Post } from "@/types";
 import { revalidatePath } from "next/cache";
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
+export async function getPostBySlug(slug: string, locale: string): Promise<Post | null> {
     try {
         const posts = await directus.request (
             readItems('posts', {
+                fields:[
+                    '*',
+                    'author',
+                    'tags',
+                    {translations: ['*']},
+                ],
                 filter: {
                     slug: {_eq: slug},
                     status: {_eq: 'published'}
                 },
-                fields:[
-                    '*',
-                    'author',
-                    'tags'
-                ],
+                deep: {
+                    translations: {
+                        _filter: {
+                            languages_code: {_eq: locale}
+                        }
+                    }
+                },
                 limit: 1
             })
         );
@@ -29,14 +37,23 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 }
 
 
-export async function getAllPosts() {
+export async function getAllPosts(slug: string, locale: string) {
     try {
         const posts = await directus.request(
             readItems('posts', {
-                fields: ['id', 'title', 'content', {author: ['id', 'avatar', 'username', 'first_name', 'last_name']},
-                {tags: ['id', {tags_id: ['id', 'name', 'slug']}] }],
+                filter: {slug: {_eq: slug}},
+                fields: ['id', 'content', {author: ['id', 'avatar', 'username', 'first_name', 'last_name']},
+                {tags: ['id', {tags_id: ['id', 'name', 'slug']}] },
+                {translations: ['*']}],
                 limit: 50,
                 sort: ['-date_created'],
+                deep: {
+                    translations: {
+                        _filter: {
+                            language_code: {_eq: locale}
+                        }
+                    }
+                }
             })
         );
 

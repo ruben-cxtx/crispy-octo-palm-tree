@@ -61,7 +61,7 @@ export async function getAuthorPosts() {
             deep: {},
             sort: ['-date_created'],
             limit: 1,
-            fields: ['id', 'title', 'date_created', 'tags', {author: ['avatar', 'id', 'username', 'first_name']}]
+            fields: ['id', 'date_created', 'tags', {author: ['avatar', 'id', 'username', 'first_name']}]
         })
     );
         return posts;
